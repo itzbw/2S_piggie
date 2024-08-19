@@ -1,6 +1,6 @@
-import { start } from "src/game";
+import { start } from "src/game.js";
 import "./App.css";
-import "src/game";
+import "src/game.js";
 
 function App() {
   return (
