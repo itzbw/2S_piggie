@@ -5,5 +5,4 @@ import paths from 'vite-tsconfig-paths'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react(), paths()],
-  base: '/2S_piggie/',
 })
