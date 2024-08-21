@@ -70,7 +70,9 @@ class Pig extends Phaser.Physics.Arcade.Sprite {
 class Example extends Phaser.Scene {
   pigs: Pig[] = [];
   // Number of pigs per pixel
-  pigDensity = 0.00005;
+  pigDensity = 0.00003;
+  clickCount = 0;
+  clickText!: Phaser.GameObjects.Text;
   constructor() {
     super();
   }
@@ -92,19 +94,18 @@ class Example extends Phaser.Scene {
       .setOrigin(0)
       .setTileScale(0.3, 0.3);
 
-    // this.physics.world.setBounds(0, 0, this.scale.width, this.scale.height);
+    this.physics.world.setBounds(0, 0, this.scale.width, this.scale.height);
 
     this.updatePigs();
 
-    // for (let i = 0; i < 20; i++) {
-    //   new Pig(
-    //     this,
-    //     Phaser.Math.Between(0, this.scale.width),
-    //     Phaser.Math.Between(0, this.scale.height)
-    //   );
-    // }
+    this.clickText = this.add.text(this.scale.width / 2, 10, `Clicks: ${this.clickCount}`, {
+      fontSize: "40px",
+      color: "#000",
+      fontStyle: "bold"
+    });
 
     window.addEventListener("resize", () => {
+      // this.scale.resize(window.innerWidth, window.innerHeight);
       this.physics.world.setBounds(0, 0, window.innerWidth, window.innerHeight);
       this.updatePigs();
     });
@@ -125,8 +126,17 @@ class Example extends Phaser.Scene {
         Phaser.Math.Between(0, window.innerWidth),
         Phaser.Math.Between(0, window.innerHeight)
       );
+      pig.on('pointerdown', () => {
+        this.clickCount++;
+        this.updateClickCountText();
+      });
+
       this.pigs.push(pig);
     }
+  }
+
+  updateClickCountText() {
+    this.clickText.setText(`Clicks: ${this.clickCount}`);
   }
 
   update() {
