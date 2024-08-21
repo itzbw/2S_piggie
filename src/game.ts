@@ -68,6 +68,9 @@ class Pig extends Phaser.Physics.Arcade.Sprite {
 }
 
 class Example extends Phaser.Scene {
+  pigs: Pig[] = [];
+  // Number of pigs per pixel
+  pigDensity = 0.00005;
   constructor() {
     super();
   }
@@ -89,25 +92,50 @@ class Example extends Phaser.Scene {
       .setOrigin(0)
       .setTileScale(0.3, 0.3);
 
-    for (let i = 0; i < 100; i++) {
-      new Pig(
-        this,
-        Phaser.Math.Between(0, this.scale.width),
-        Phaser.Math.Between(0, this.scale.height)
-      );
-    }
+    // this.physics.world.setBounds(0, 0, this.scale.width, this.scale.height);
+
+    this.updatePigs();
+
+    // for (let i = 0; i < 20; i++) {
+    //   new Pig(
+    //     this,
+    //     Phaser.Math.Between(0, this.scale.width),
+    //     Phaser.Math.Between(0, this.scale.height)
+    //   );
+    // }
 
     window.addEventListener("resize", () => {
       this.physics.world.setBounds(0, 0, window.innerWidth, window.innerHeight);
+      this.updatePigs();
     });
   }
 
+  updatePigs() {
+    const screenArea = window.innerWidth * window.innerHeight;
+    const targetNumberOfPigs = Math.floor(screenArea * this.pigDensity);
+
+    while (this.pigs.length > targetNumberOfPigs) {
+      const pig = this.pigs.pop();
+      pig?.destroy();
+    }
+
+    while (this.pigs.length < targetNumberOfPigs) {
+      const pig = new Pig(
+        this,
+        Phaser.Math.Between(0, window.innerWidth),
+        Phaser.Math.Between(0, window.innerHeight)
+      );
+      this.pigs.push(pig);
+    }
+  }
+
   update() {
-    this.children.list.forEach((child) => {
-      if ("update" in child) {
-        child.update();
-      }
-    });
+    // this.children.list.forEach((child) => {
+    //   if ("update" in child) {
+    //     child.update();
+    //   }
+    // });
+    this.pigs.forEach((pig) => pig.update());
   }
 }
 
