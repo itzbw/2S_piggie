@@ -60,9 +60,10 @@ class Pig extends Phaser.Physics.Arcade.Sprite {
 
     this.scene.tweens.add({
       targets: this,
-      duration: 100,
+      duration: 50,
       scale: this.scale * 1.3,
       yoyo: true,
+      ease: 'Power1',
     });
   }
 }
@@ -99,7 +100,7 @@ class Example extends Phaser.Scene {
     this.updatePigs();
 
     this.clickText = this.add.text(10, 10, `Clicks: ${this.clickCount}`, {
-      fontSize: "20px",
+      fontSize: "30px",
       color: "#000",
       fontStyle: "bold"
     });
