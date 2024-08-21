@@ -98,8 +98,8 @@ class Example extends Phaser.Scene {
 
     this.updatePigs();
 
-    this.clickText = this.add.text(this.scale.width / 2, 10, `Clicks: ${this.clickCount}`, {
-      fontSize: "40px",
+    this.clickText = this.add.text(10, 10, `Clicks: ${this.clickCount}`, {
+      fontSize: "20px",
       color: "#000",
       fontStyle: "bold"
     });
